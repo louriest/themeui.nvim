@@ -1,7 +1,8 @@
 local helper = require("themeui.helper")
-local themes = require("themeui.data").themes
+local data = require("themeui.data")
 
 local M = {}
+local themes = data.get_themes()
 
 function M.select_theme_ui()
 	local Menu = require("nui.menu")

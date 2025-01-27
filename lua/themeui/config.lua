@@ -1,8 +1,9 @@
 local helper = require("themeui.helper")
 local ui = require("themeui.ui")
-local themes = require("themeui.data").themes
+local data = require("themeui.data")
 
 local M = {}
+local themes = data.get_themes()
 
 local function is_background_transparent()
 	-- gets curent background color
