@@ -22,7 +22,7 @@ function M.select_theme_ui()
 		relative = "editor",
 		size = {
 			width = 25,
-			height = math.max(1, #themes or 0),
+			height = #themes,
 		},
 		border = {
 			style = "rounded",
