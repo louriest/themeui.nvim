@@ -1,10 +1,12 @@
 local keybinds = require("themeui.keybinds")
 local data = require("themeui.data")
-local config = require("themeui.config")
+local api = require("themeui.api")
 
+--- @class themeui
+--- @field config table Configuration table
 local M = {}
 
-M.config = config
+M.config = api
 
 local defaults = {
 	keymaps = {
@@ -14,6 +16,8 @@ local defaults = {
 	},
 }
 
+--- Configure themeui plugin and set keybinds
+--- @param users table User configuration
 local function setup_themes(users)
 	-- Disable keymaps if no themes are available
 	if not users or not users.themes or vim.tbl_count(users.themes) == 0 then
@@ -24,6 +28,8 @@ local function setup_themes(users)
 	data.update_themes(M.config.themes)
 end
 
+--- setup themeui plugin
+--- @param users table User configuration
 function M.setup(users)
 	users = users or {}
 	M.config = vim.tbl_deep_extend("force", defaults, users)

@@ -1,6 +1,8 @@
 local M = {}
 
--- handle file check
+--- Check if file exists
+--- @param filepath string
+--- @return boolean True if file exists, false otherwise
 local function file_exists(filepath)
 	local f = io.open(filepath, "r")
 	if f ~= nil then
@@ -11,6 +13,7 @@ local function file_exists(filepath)
 	end
 end
 
+--- Save colorscheme & background preferences to the file
 function M.save_preferences()
 	local bg = vim.o.bg
 	local colorscheme = vim.g.colors_name
@@ -24,29 +27,16 @@ function M.save_preferences()
 		filePath = home .. "/.nvim_preferences"
 	end
 
+	-- Create file if it doesn't exist
 	if not file_exists(filePath) then
-		os.execute("touch " .. filePath)
+		if vim.fn.has("win32") == 1 then
+			os.execute("echo.> " .. filePath)
+		else
+			os.execute("touch " .. filePath)
+		end
 	end
 
 	vim.fn.writefile({ colorscheme, bg }, filePath)
-end
-
-function M.apply_theme(theme)
-	vim.cmd("colorscheme " .. theme)
-
-	-- applies dark mode for dracula theme
-	if theme == "dracula" then
-		vim.api.nvim_set_option_value("bg", "dark", {})
-	end
-
-	-- changes lualine theme to match main theme
-	require("lualine").setup({
-		options = {
-			theme = theme,
-		},
-	})
-
-	M.save_preferences()
 end
 
 return M

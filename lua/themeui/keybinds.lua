@@ -1,7 +1,11 @@
-local theme = require("themeui.config")
+local api = require("themeui.api")
+local ui = require("themeui.ui")
 
+--- @class keybinds
 local M = {}
 
+--- Sets default keybinds
+--- @param opts table User configuration
 function M.set_keys(opts)
 	opts = opts or {}
 
@@ -9,19 +13,19 @@ function M.set_keys(opts)
 		{
 			mode = "n",
 			key = opts.toggle_background or "<leader>bg",
-			action = theme.toggle_background,
+			action = api.toggle_background,
 			desc = "Toggle background",
 		},
 		{
 			mode = "n",
 			key = opts.switch_theme or "<leader>ts",
-			action = theme.switch_theme,
+			action = api.switch_theme,
 			desc = "Toggle colorscheme",
 		},
 		{
 			mode = "n",
 			key = opts.theme_selector or "<leader>th",
-			action = theme.theme_selector,
+			action = ui.select_theme_ui,
 			desc = "Select colorscheme",
 		},
 	}

@@ -1,1 +1,1 @@
-require("themeui").setup()
+require("themeui").setup({})

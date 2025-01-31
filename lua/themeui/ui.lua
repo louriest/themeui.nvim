@@ -1,9 +1,12 @@
-local helper = require("themeui.helper")
+local api = require("themeui.api")
 local data = require("themeui.data")
 
 local M = {}
 local themes = data.get_themes()
 
+--- Theme selector menu built with nui.nvim
+--- List of themes is stored in data.lua
+--- Calls api.apply_theme() on selection of theme
 function M.select_theme_ui()
 	local Menu = require("nui.menu")
 
@@ -15,7 +18,7 @@ function M.select_theme_ui()
 
 	-- handle selector theme change
 	local function handle_input(theme)
-		helper.apply_theme(theme)
+		api.apply_theme(theme)
 	end
 
 	local menu = Menu({
