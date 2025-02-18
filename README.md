@@ -37,7 +37,7 @@ Installation
 
 ```lua
 {
-  "yashodhanketkar/themeui.nvim",
+  "louriest/themeui.nvim",
   dependencies = {
     "MunifTanjim/nui.nvim",
     "Mofiqul/dracula.nvim",
@@ -74,4 +74,4 @@ License
 
 [MIT License](./LICENSE)
 
-Copyright (c) 2025 Yashodhan Ketkar
+Copyright (c) 2025 Louriest
