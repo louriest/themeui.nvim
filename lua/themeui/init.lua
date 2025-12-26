@@ -1,6 +1,7 @@
 local keybinds = require("themeui.keybinds")
 local data = require("themeui.data")
 local api = require("themeui.api")
+local persistence = require("themeui.persistence")
 
 --- @class themeui
 --- @field config table Configuration table
@@ -34,6 +35,12 @@ function M.setup(users)
 	users = users or {}
 	M.config = vim.tbl_deep_extend("force", defaults, users)
 	setup_themes(users)
+	vim.api.nvim_create_autocmd("VimEnter", {
+		once = true,
+		callback = function()
+			persistence.load_preferences()
+		end,
+	})
 end
 
 return M

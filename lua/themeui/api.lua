@@ -32,11 +32,11 @@ local function background_transparancy()
 			-- if background is transparent, set it to normal
 			vim.cmd("colorscheme " .. colorscheme)
 			vim.api.nvim_set_option_value("bg", "dark", {})
-			vim.api.nvim_notify("Switched to normal mode", vim.log.levels.INFO, {})
+			vim.notify("Switched to normal mode", vim.log.levels.INFO)
 		else
 			-- otherwise, set it to transparent
 			set_transparancy()
-			vim.api.nvim_notify("Switched to transparent mode", vim.log.levels.INFO, {})
+			vim.notify("Switched to transparent mode", vim.log.levels.INFO, {})
 		end
 	end
 end
@@ -52,7 +52,7 @@ function M.toggle_background()
 		-- handle background for all non-dracula themes
 		bg = bg == "dark" and "light" or "dark"
 		vim.api.nvim_set_option_value("bg", bg, {})
-		vim.api.nvim_notify("Switched to " .. bg .. " mode", vim.log.levels.INFO, {})
+		vim.notify("Switched to " .. bg .. " mode", vim.log.levels.INFO, {})
 	else
 		-- handle transparency for dracula theme
 		background_transparancy()
@@ -94,7 +94,7 @@ function M.apply_theme(theme)
 		},
 	})
 
-	vim.api.nvim_notify("Applied " .. theme .. " colorscheme", vim.log.levels.INFO, {})
+	vim.notify("Applied " .. theme .. " colorscheme", vim.log.levels.INFO, {})
 	helper.save_preferences()
 end
 
