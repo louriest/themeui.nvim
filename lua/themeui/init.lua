@@ -1,46 +1,58 @@
-local keybinds = require("themeui.keybinds")
-local data = require("themeui.data")
-local api = require("themeui.api")
-local persistence = require("themeui.persistence")
+local commands = require("themeui.commands")
+local store = require("themeui.store")
+local keymaps = require("themeui.keymaps")
+local helpers = require("themeui.helpers")
+local engine = require("themeui.engine")
 
---- @class themeui
---- @field config table Configuration table
-local M = {}
+--- @class ThemeUIState
+--- @field themes string[] List of available themes
+--- @field index number
+--- @field background "dark" | "light"
 
-M.config = api
+--- @class ThemeUIConfig
+--- @field state ThemeUIState state of the plugin
 
-local defaults = {
-	keymaps = {
-		toggle_background = "<leader>bg",
-		switch_theme = "<leader>ts",
-		theme_selector = "<leader>th",
-	},
+--- @class keymaps
+--- @field mode `n` | `v` | `i`
+--- @field key string
+--- @field cmd string
+--- @field desc string
+
+--- @class ThemeUI
+--- @field config ThemeUIConfig
+--- @field setup fun(config: ThemeUIConfig)
+local themeui = {}
+
+--- @type ThemeUIState
+local state = {
+	themes = {},
+	index = 1,
+	background = "dark",
 }
 
---- Configure themeui plugin and set keybinds
---- @param users table User configuration
-local function setup_themes(users)
-	-- Disable keymaps if no themes are available
-	if not users or not users.themes or vim.tbl_count(users.themes) == 0 then
-		return
-	end
+--- @param config ThemeUIConfig config
+function themeui.setup(config)
+	config = config or {}
 
-	keybinds.set_keys(M.config.keymaps)
-	data.update_themes(M.config.themes)
-end
+	themeui.config = {
+		state = store.new(config.state or state),
+	}
 
---- setup themeui plugin
---- @param users table User configuration
-function M.setup(users)
-	users = users or {}
-	M.config = vim.tbl_deep_extend("force", defaults, users)
-	setup_themes(users)
 	vim.api.nvim_create_autocmd("VimEnter", {
-		once = true,
 		callback = function()
-			persistence.load_preferences()
+			local success, s = pcall(helpers.load)
+			if not success then
+				return
+			end
+
+			pcall(engine.apply_theme, s, true)
+			pcall(engine.apply_background, s, true)
+			themeui.config.state = s
 		end,
 	})
+
+	commands.setup(themeui.config)
+	keymaps.setup()
 end
 
-return M
+return themeui
