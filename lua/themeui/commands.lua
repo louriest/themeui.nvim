@@ -1,5 +1,5 @@
 local store = require("themeui.store")
-local helpers = require("themeui.helpers")
+local storage = require("themeui.storage")
 local selector = require("themeui.select")
 
 --- @class ThemeUICommands
@@ -10,25 +10,26 @@ local commands = {}
 function commands.setup(config)
 	vim.api.nvim_create_user_command("ThemeUINext", function()
 		store.next(config.state)
+		local theme = config.state.themes[config.state.index]
+		vim.notify("Applying " .. theme .. " colorscheme", vim.log.levels.INFO, {})
 	end, { desc = "Switch to next theme" })
 
 	vim.api.nvim_create_user_command("ThemeUIPrev", function()
 		store.prev(config.state)
+		local theme = config.state.themes[config.state.index]
+		vim.notify("Applying " .. theme .. " colorscheme", vim.log.levels.INFO, {})
 	end, { desc = "Switch to previous theme" })
 
 	vim.api.nvim_create_user_command("ThemeUIToggleBackground", function()
 		store.toggle_background(config.state)
+		vim.notify("Switched to " .. config.state.background .. " mode", vim.log.levels.INFO, {})
 	end, { desc = "Toggle background mode" })
 
-	vim.api.nvim_create_user_command("ThemeUISaveFile", function()
-		helpers.get_file_path()
-	end, { desc = "Returns state path for the current buffer." })
-
 	vim.api.nvim_create_user_command("ThemeUIState", function()
-		local s = helpers.load()
+		local s = storage.load()
 		vim.notify(vim.json.encode({
-			colorscheme = s.themes[s.index],
-			background = s.background,
+			{ colorscheme = s.themes[s.index] },
+			{ background = s.background },
 		}))
 	end, { desc = "Returns state path for the current buffer." })
 

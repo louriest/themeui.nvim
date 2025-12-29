@@ -1,7 +1,7 @@
 local commands = require("themeui.commands")
 local store = require("themeui.store")
 local keymaps = require("themeui.keymaps")
-local helpers = require("themeui.helpers")
+local storage = require("themeui.storage")
 local engine = require("themeui.engine")
 
 --- @class ThemeUIState
@@ -40,13 +40,13 @@ function themeui.setup(config)
 
 	vim.api.nvim_create_autocmd("VimEnter", {
 		callback = function()
-			local success, s = pcall(helpers.load)
+			local success, s = pcall(storage.load)
 			if not success then
 				return
 			end
 
-			pcall(engine.apply_theme, s, true)
-			pcall(engine.apply_background, s, true)
+			pcall(engine.apply_theme, s)
+			pcall(engine.apply_background, s)
 			themeui.config.state = s
 		end,
 	})

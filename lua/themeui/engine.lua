@@ -1,4 +1,4 @@
-local helpers = require("themeui.helpers")
+local storage = require("themeui.storage")
 
 --- @class ThemeUIEngine
 --- @field apply_theme fun(state: ThemeUIState, silent?: boolean)
@@ -7,8 +7,7 @@ local engine = {}
 
 --- Apply selected theme to neovim and lualine
 --- @param state ThemeUIState
---- @param silent? boolean Default: false
-function engine.apply_theme(state, silent)
+function engine.apply_theme(state)
 	local theme = state.themes[state.index]
 	vim.cmd("colorscheme " .. theme)
 
@@ -18,21 +17,14 @@ function engine.apply_theme(state, silent)
 		},
 	})
 
-	helpers.save(state)
-	if not silent then
-		vim.notify("Applying " .. theme .. " colorscheme", vim.log.levels.INFO, {})
-	end
+	storage.save(state)
 end
 
 --- Apply selected background to neovim
 --- @param state ThemeUIState
---- @param silent? boolean Default: false
-function engine.apply_background(state, silent)
+function engine.apply_background(state)
 	vim.api.nvim_set_option_value("bg", state.background, {})
-	if not silent then
-		vim.notify("Switched to " .. state.background .. " mode", vim.log.levels.INFO, {})
-	end
-	helpers.save(state)
+	storage.save(state)
 end
 
 return engine

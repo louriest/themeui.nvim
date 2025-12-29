@@ -18,17 +18,26 @@ function helper.file_exist(filePath)
 	return false
 end
 
+--- Internal function to provide path
+--- created for testing and mocking support
+--- @return string dirPath
+function helper._path_provider()
+	return vim.fn.stdpath("cache") .. "/themeui" .. vim.fn.getcwd()
+end
+
 --- Get state file path depending on OS
 --- create file if it doesn't exist
+--- @return string filePath
 function helper.get_file_path()
-	-- vim.fn.mkdir("state", "p")
-	local filePath = vim.fn.stdpath("cache") .. "/themeui" .. vim.fn.getcwd()
-	if not helper.file_exist(filePath .. "/themes.json") then
-		vim.fn.mkdir(filePath, "p")
-		vim.fn.writefile({}, filePath .. "/themes.json")
+	local dirPath = helper._path_provider()
+	local filePath = dirPath .. "/themes.json"
+
+	if not helper.file_exist(filePath) then
+		pcall(vim.fn.mkdir, dirPath, "p")
+		vim.fn.writefile({}, filePath)
 	end
 
-	return filePath .. "/themes.json"
+	return filePath
 end
 
 --- Save state to file
