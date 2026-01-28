@@ -22,7 +22,7 @@ end
 --- created for testing and mocking support
 --- @return string dirPath
 function helper._path_provider()
-	return vim.fn.stdpath("cache") .. "/themeui" .. vim.fn.getcwd()
+	return vim.fn.stdpath("cache") .. "/themeui"
 end
 
 --- Get state file path depending on OS

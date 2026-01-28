@@ -29,12 +29,12 @@ helpers.new_child_neovim = function()
 					child.lua([[ M = require("themeui") ]])
 
 					nHelper.inject(child)
-					sHelper.inject()
+					sHelper.inject(child)
 					eHelper.inject(child)
 				end,
 				post_once = function()
 					eHelper.destory(child)
-					sHelper.destory()
+					sHelper.destory(child)
 					nHelper.destory(child)
 
 					child.stop()

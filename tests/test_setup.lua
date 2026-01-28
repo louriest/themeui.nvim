@@ -39,4 +39,25 @@ T["setup"]["applies custom state"] = function()
 	eq(themes, { "one", "two", "three" })
 end
 
+T["setup"]["applies correct theme on startup"] = function()
+	child.lua(
+		-- [[ require("themeui").storage.save(vim.json.encode( {"themes":["one","two","three"],"background":"dark","index":3}) }) ]]
+		[[
+      require('themeui')
+    ]]
+	)
+	child.lua([[
+    M.setup({
+      state = {
+        index = 1,
+        themes = { "one", "two", "three" },
+        background = "light"
+      }
+    })
+  ]])
+
+	local theme = child.lua_get([[ M.config.state.themes[2] ]])
+	eq(theme, "two")
+end
+
 return T

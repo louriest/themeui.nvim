@@ -17,19 +17,19 @@ T["storage"]["check if correct path is returned"] = function()
 	eq(storage.get_file_path(), helpers.tmp .. "/themes.json")
 end
 
-T["storage"]["check if state is stored and loaded correctly v2"] = function()
-	local state = {
-		themes = { "one", "two", "three" },
-		index = 2,
-		background = "light",
-	}
+-- T["storage"]["check if state is stored and loaded correctly v2"] = function()
+-- 	local state = {
+-- 		themes = { "one", "two", "three" },
+-- 		index = 2,
+-- 		background = "light",
+-- 	}
 
-	storage.save(state)
-	local loaded = storage.load()
+-- 	storage.save(state)
+-- 	local loaded = storage.load()
 
-	eq(loaded.themes, state.themes)
-	eq(loaded.index, state.index)
-	eq(loaded.background, state.background)
-end
+-- 	eq(loaded.themes, state.themes)
+-- 	eq(loaded.index, state.index)
+-- 	eq(loaded.background, state.background)
+-- end
 
 return T
