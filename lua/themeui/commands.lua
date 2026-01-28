@@ -21,6 +21,10 @@ function commands.setup(config)
 	end, { desc = "Switch to previous theme" })
 
 	vim.api.nvim_create_user_command("ThemeUIToggleBackground", function()
+		if config.state.themes[config.state.index] == "dracula" then
+			vim.notify("Dracula does not support light background")
+			return
+		end
 		store.toggle_background(config.state)
 		vim.notify("Switched to " .. config.state.background .. " mode", vim.log.levels.INFO, {})
 	end, { desc = "Toggle background mode" })

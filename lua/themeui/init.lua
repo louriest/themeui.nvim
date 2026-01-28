@@ -41,13 +41,22 @@ function themeui.setup(config)
 	vim.api.nvim_create_autocmd("VimEnter", {
 		callback = function()
 			local success, s = pcall(storage.load)
-			if not success then
+			if not success or type(s) ~= "table" then
 				return
 			end
 
-			pcall(engine.apply_theme, s)
-			pcall(engine.apply_background, s)
-			themeui.config.state = s
+			local st = themeui.config.state
+
+			if s.index then
+				st.index = s.index
+			end
+
+			if s.background then
+				st.background = s.background
+			end
+
+			pcall(engine.apply_theme, st)
+			pcall(engine.apply_background, st)
 		end,
 	})
 

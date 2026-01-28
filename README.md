@@ -24,11 +24,12 @@ Features
 Keybindings
 -----------
 
-| Key                                         | Action                             |
-|---------------------------------------------|------------------------------------|
-| <kbd>leader</kbd> <kbd>t</kbd> <kbd>h</kbd> | Open colorscheme selection menu    |
-| <kbd>leader</kbd> <kbd>t</kbd> <kbd>s</kbd> | Toggle colorscheme in sequentially |
-| <kbd>leader</kbd> <kbd>b</kbd> <kbd>g</kbd> | Toggle background mode             |
+| Key                                         | Action                          |
+|---------------------------------------------|---------------------------------|
+| <kbd>leader</kbd> <kbd>t</kbd> <kbd>h</kbd> | Open colorscheme selection menu |
+| <kbd>leader</kbd> <kbd>t</kbd> <kbd>n</kbd> | Switch to next theme            |
+| <kbd>leader</kbd> <kbd>t</kbd> <kbd>p</kbd> | Switch to previous theme        |
+| <kbd>leader</kbd> <kbd>b</kbd> <kbd>g</kbd> | Toggle background mode          |
 
 Installation
 ------------
@@ -41,14 +42,20 @@ Installation
   dependencies = {
     "MunifTanjim/nui.nvim",
     "Mofiqul/dracula.nvim",
-    "ellisonleao/gruvbox.nvim", -- optional
+    "ellisonleao/gruvbox.nvim",
+    {
+      "rose-pine/neovim",
+      name = "rose-pine",  -- define name for theme
+      opts = { variant = "auto", dark_variant = "moon" } -- define theme options
+    },
     -- add more themes here
   },
   config = function()
     require("themeui").setup({
       themes = {
         "dracula",
-        "gruvbox", -- optional
+        "gruvbox",
+        "rose-pine", -- uses name defined in dependencies
         -- add themes name here
       },
     })
